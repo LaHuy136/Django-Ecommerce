@@ -12,3 +12,12 @@ def HOME(request):
     }
 
     return render(request, 'main/index.html', context)
+
+def PRODUCT(request):
+    product = Product.objects.filter(status = 'Publish')
+
+    context = {
+        'product': product,
+    }
+    
+    return render(request, 'main/product.html',context)
