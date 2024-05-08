@@ -5,10 +5,10 @@ def BASE(request):
     return render(request, 'main/base.html')
 
 def HOME(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(status = 'Publish')
 
     context = {
         'product': product,
-        
     }
-    return render(request, 'main/index.html')
+
+    return render(request, 'main/index.html', context)
