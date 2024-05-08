@@ -1,6 +1,5 @@
 {% extends "main/base.html" %}
 {% block content %}
-{% load static %}
 <!-- Shop Page Start  -->
 <div class="shop-category-area pt-100px pb-100px">
     <div class="container">
@@ -57,8 +56,9 @@
                                                 </span>
                                                 <div class="thumb">
                                                     <a href="single-product.html" class="image">
-                                                        <img src="{{prod.image}}" alt="Product" />
-                                                        <img class="hover-image" src="{{prod.image}}" alt="Product" />
+                                                        <img src="/{{prod.image}}" alt="Product" />
+                                                        <img class="hover-image" src="/{{prod.image}}" alt="Product" />
+                                                        
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -93,8 +93,8 @@
                                                 <div class="product">
                                                     <div class="thumb">
                                                         <a href="single-product.html" class="image">
-                                                            <img src="{{prod.image}}" alt="Product" />
-                                                            <img class="hover-image" src="{{prod.image}}" alt="Product" />
+                                                            <img src="/{{prod.image}}" alt="Product" />
+                                                            <img class="hover-image" src="/{{prod.image}}" alt="Product" />
                                                         </a>
                                                         <span class="badges">
                                                         <span class="new">{{prod.condition}}</span>
