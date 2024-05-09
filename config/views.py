@@ -146,3 +146,10 @@ def HandleLogin(request):
         else:
             return redirect('login')
     return render(request, 'Registration/auth.html')
+
+
+def HandleLogout(request):
+    logout(request)
+    redirect('home')
+
+    return redirect('home')
