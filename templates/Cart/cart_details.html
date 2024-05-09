@@ -28,15 +28,23 @@
                                     </td>
                                     <td class="product-name" ><a href="#">{{value.name|truncatewords:15}}</a></td>
                                     <td class="product-price-cart"><span class="amount">${{value.price}}</span></td>
-                                    <td class="product-quantity">
+                                    <!-- <td class="product-quantity">
+
                                         <div class="cart-plus-minus">
                                             <input class="cart-plus-minus-box" type="text" name="qtybutton" value="{{value.quantity}}" />
+                                        </div>
+                                    </td> -->
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button"> 
+                                        <a href="{% url 'item_increment' value.product_id %}" class="cart_quantity_up">+</a>
+                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="{{value.quantity}}" />
+                                        <a href="{% url 'item_decrement' value.product_id %}" class="cart_quantity_down">-</a>
                                         </div>
                                     </td>
                                     <td class="product-subtotal">$ {{ value.price|multiply:value.quantity }}</td>
                                     <td class="product-remove">
-                                        <a href="#"><i class="fa fa-pencil"></i></a>
-                                        <a href="#"><i class="fa fa-times"></i></a>
+                                        <a href=""><i class="fa fa-pencil"></i></a>
+                                        <a href="{% url 'item_clear' key%}"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr> 
                                 {% endfor %}
@@ -120,15 +128,15 @@
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
-                            <h5>Total products <span>$260.00</span></h5>
+                            <h5>Total products <span>${{cart_total_amount}}</span></h5>
                             <div class="total-shipping">
                                 <h5>Total shipping</h5>
                                 <ul>
-                                    <li><input type="checkbox" /> Standard <span>$20.00</span></li>
-                                    <li><input type="checkbox" /> Express <span>$30.00</span></li>
+                                    <li>Shipping Charge<span>$50.00</span></li>
+                                    <li>Tex<span>$70.00</span></li>
                                 </ul>
                             </div>
-                            <h4 class="grand-totall-title">Grand Total <span>$260.00</span></h4>
+                            <h4 class="grand-totall-title">Grand Total <span>{{cart_total_amount|add:50|add:70}}</span></h4>
                             <a href="checkout.html">Proceed to Checkout</a>
                         </div>
                     </div>
