@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 class Categoires(models.Model):
     name = models.CharField(max_length=200)
 
@@ -43,8 +44,8 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.IntegerField()
     condition = models.CharField(choices=CONDITION, max_length=100)
-    information = models.TextField()
-    description = models.TextField()
+    information = RichTextField(null=True)
+    description = RichTextField(null=True)
     stock = models.CharField(choices=STOCK, max_length=200)
     status = models.CharField(choices=STATUS, max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
@@ -78,3 +79,14 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+class Contact_us(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    subject = models.CharField(max_length=300)
+    message = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+

@@ -251,7 +251,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -482,7 +482,7 @@
                             <li><a href="blog-single-right-sidebar.html">Single Right Sidbar</a>
                         </ul>
                     </li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
                 </ul>
             </div>
             <!-- OffCanvas Menu End -->
@@ -558,7 +558,7 @@
                                     <div class="footer-row">
                                         <ul class="align-items-center">
                                             <li class="li"><a class="single-link" href="my-account.html">My Account</a></li>
-                                            <li class="li"><a class="single-link" href="contact.html">Contact</a></li>
+                                            <li class="li"><a class="single-link" href="{% url 'contact' %}">Contact</a></li>
                                             <li class="li"><a class="single-link" href="cart.html">Shopping cart</a></li>
                                             <li class="li"><a class="single-link" href="shop-left-sidebar.html">Shop</a></li>
                                             <li class="li"><a class="single-link" href="login.html">Services Login</a></li>
@@ -576,7 +576,7 @@
                                     <div class="footer-row">
                                         <ul class="align-items-center">
                                             <li class="li"><a class="single-link" href="my-account.html">My Account</a></li>
-                                            <li class="li"><a class="single-link" href="contact.html">Contact</a></li>
+                                            <li class="li"><a class="single-link" href="{% url 'contact' %}">Contact</a></li>
                                             <li class="li"><a class="single-link" href="cart.html">Shopping cart</a></li>
                                             <li class="li"><a class="single-link" href="shop-left-sidebar.html">Shop</a></li>
                                             <li class="li"><a class="single-link" href="login.html">Services Login</a></li>
@@ -676,7 +676,7 @@
                                     </div>
                                     <span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
                                 </div>
-                                <p class="mt-30">{{ i.description|truncatewords:50 }}</p>
+                                <p class="mt-30">{{ i.description|truncatewords:50 | safe}}</p>
                                 {% comment %} <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
                                     <span>SKU:</span>
                                     <ul class="d-flex">
