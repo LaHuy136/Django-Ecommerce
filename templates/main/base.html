@@ -46,6 +46,12 @@
                                     <li><a href="tel:0123456789"><i class="fa fa-phone"></i> +012 3456 789</a></li>
                                     <li><a href="mailto:demo@example.com"><i class="fa fa-envelope-o"></i> demo@example.com</a></li>
                                     <li><a href="my-account.html"><i class="fa fa-user"></i> Account</a></li>
+
+                                    {% if user.is_authenticated%}
+                                    <li><a href="{% url 'logout'%}"> <i class="fa-solid fa-lock-open"></i> Logout</a></li>
+                                    {% else %}
+                                    <li><a href="{% url 'login'%}"> <i class="fa-solid fa-lock"></i> Login</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -59,13 +65,13 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-3 col">
                             <div class="header-logo">
-                                <a href="index.html"><img src="{% static 'assets/images/logo/logo.png' %}" alt="Site Logo" /></a>
+                                <a href="{% url 'home' %}"><img src="{% static 'assets/images/logo/logo.png' %}" alt="Site Logo" /></a>
                             </div>
                         </div>
                         <div class="col-lg-6 d-none d-lg-block">
                             <div class="search-element">
-                                <form action="#">
-                                    <input type="text" placeholder="Search" />
+                                <form action="/search/" method='get'>
+                                    <input type="text" placeholder="Search" name='query' id='query'/>
                                     <button><i class="pe-7s-search"></i></button>
                                 </form>
                             </div>
@@ -97,13 +103,13 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-3 col">
                             <div class="header-logo">
-                                <a href="index.html"><img src="{% static 'assets/images/logo/logo.png' %}" alt="Site Logo" /></a>
+                                <a href="{% url 'home' %}"><img src="{% static 'assets/images/logo/logo.png' %}" alt="Site Logo" /></a>
                             </div>
                         </div>
                         <div class="col-lg-6 d-none d-lg-block">
                             <div class="search-element">
-                                <form action="#">
-                                    <input type="text" placeholder="Search" />
+                                <form action="/search/" method="get">
+                                    <input type="text" placeholder="Search" name="query" id="query"/>
                                     <button><i class="pe-7s-search"></i></button>
                                 </form>
                             </div>
@@ -251,7 +257,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -482,7 +488,7 @@
                             <li><a href="blog-single-right-sidebar.html">Single Right Sidbar</a>
                         </ul>
                     </li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
                 </ul>
             </div>
             <!-- OffCanvas Menu End -->
@@ -558,7 +564,7 @@
                                     <div class="footer-row">
                                         <ul class="align-items-center">
                                             <li class="li"><a class="single-link" href="my-account.html">My Account</a></li>
-                                            <li class="li"><a class="single-link" href="contact.html">Contact</a></li>
+                                            <li class="li"><a class="single-link" href="{% url 'contact' %}">Contact</a></li>
                                             <li class="li"><a class="single-link" href="cart.html">Shopping cart</a></li>
                                             <li class="li"><a class="single-link" href="shop-left-sidebar.html">Shop</a></li>
                                             <li class="li"><a class="single-link" href="login.html">Services Login</a></li>
@@ -576,7 +582,7 @@
                                     <div class="footer-row">
                                         <ul class="align-items-center">
                                             <li class="li"><a class="single-link" href="my-account.html">My Account</a></li>
-                                            <li class="li"><a class="single-link" href="contact.html">Contact</a></li>
+                                            <li class="li"><a class="single-link" href="{% url 'contact' %}">Contact</a></li>
                                             <li class="li"><a class="single-link" href="cart.html">Shopping cart</a></li>
                                             <li class="li"><a class="single-link" href="shop-left-sidebar.html">Shop</a></li>
                                             <li class="li"><a class="single-link" href="login.html">Services Login</a></li>
@@ -625,7 +631,8 @@
     <!-- Footer Area End -->
 </div>
 <!-- Modal -->
-    <div class="modal modal-2 fade" id="exampleModal" tabindex="-1" role="dialog">
+{% for i in product %}
+    <div class="modal modal-2 fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -635,40 +642,20 @@
                             <!-- Swiper -->
                             <div class="swiper-container gallery-top">
                                 <div class="swiper-wrapper">
+                                    {% for img in i.images_set.all %}
                                     <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/zoom-image/1.webp' %}" alt="">
+                                        <img class="img-responsive m-auto" src="/{{ img.image }}" alt="">
                                     </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/zoom-image/2.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/zoom-image/3.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/zoom-image/4.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/zoom-image/5.webp' %}" alt="">
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
                                 <div class="swiper-wrapper">
+                                    {% for img in i.images_set.all %}
                                     <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/small-image/1.webp' %}" alt="">
+                                        <img class="img-responsive m-auto" src="/{{ img.image }}" alt="">
                                     </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/small-image/2.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/small-image/3.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/small-image/4.webp' %}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive m-auto" src="{% static 'assets/images/product-image/small-image/5.webp' %}" alt="">
-                                    </div>
+                                    {% endfor %}
                                 </div>
                                 <!-- Add Arrows -->
                                 <div class="swiper-buttons">
@@ -679,10 +666,10 @@
                         </div>
                         <div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
                             <div class="product-details-content quickview-content">
-                                <h2>Modern Smart Phone</h2>
+                                <h2>{{ i.name|truncatewords:8 }} </h2>
                                 <div class="pricing-meta">
                                     <ul class="d-flex">
-                                        <li class="new-price">$20.90</li>
+                                        <li class="new-price">${{ i.price }}</li>
                                     </ul>
                                 </div>
                                 <div class="pro-details-rating-wrap">
@@ -695,23 +682,20 @@
                                     </div>
                                     <span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
                                 </div>
-                                <p class="mt-30px">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat. Duis aute irure dolor</p>
-                                <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+                                <p class="mt-30">{{ i.description|truncatewords:50 | safe}}</p>
+                                {% comment %} <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
                                     <span>SKU:</span>
                                     <ul class="d-flex">
                                         <li>
-                                            <a href="#">Ch-256xl</a>
+                                            <a href="#"></a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
                                     <span>Categories: </span>
                                     <ul class="d-flex">
                                         <li>
-                                            <a href="#">Smart Device, </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">ETC</a>
+                                            <a href="#">{{ i.categories }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -719,10 +703,9 @@
                                     <span>Tags: </span>
                                     <ul class="d-flex">
                                         <li>
-                                            <a href="#">Smart Device, </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Phone</a>
+                                            {% for tag in i.tag_set.all %}
+                                            <a href="#">{{ tag.name }}, </a>
+                                            {% endfor %}
                                         </li>
                                     </ul>
                                 </div>
@@ -749,6 +732,8 @@
         </div>
     </div>
     <!-- Modal end -->
+    {% endfor %}
+
     <!-- Modal Cart -->
     <div class="modal customize-class fade" id="exampleModal-Cart" tabindex="-1"   aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
