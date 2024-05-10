@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 class Categoires(models.Model):
     name = models.CharField(max_length=200)
 
@@ -90,3 +91,34 @@ class Contact_us(models.Model):
     def __str__(self):
         return self.email
 
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    fistname = models.CharField(max_length=200)
+    lastname = models.CharField(max_length=200)
+    county = models.CharField(max_length=200)
+    address = models.TextField()
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    postcode = models.IntegerField()
+    phone = models.IntegerField()
+    email = models.EmailField()
+    additional_info = models.TextField()
+    amount = models.CharField(max_length=100)
+    payment_id = models.CharField(max_length=300, null=True, blank=True)
+    paid = models.BooleanField(default=False, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.CASCADE)
+    product = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='Product_Images/Order_Img')
+    quantity = models.CharField(max_length=20)
+    price = models.CharField(max_length=50)
+    total = models.CharField(max_length=1000)
+    def __str__(self):
+        return self.order.user.username
