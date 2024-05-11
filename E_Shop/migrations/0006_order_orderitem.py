@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
             name='Order',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fistname', models.CharField(max_length=200)),
+                ('firstname', models.CharField(max_length=200)),
                 ('lastname', models.CharField(max_length=200)),
-                ('county', models.CharField(max_length=200)),
+                ('country', models.CharField(max_length=200)),
                 ('address', models.TextField()),
                 ('city', models.CharField(max_length=200)),
                 ('state', models.CharField(max_length=200)),

@@ -33,4 +33,10 @@ urlpatterns = [
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
     path('cart/checkout/',views.Check_out,name='checkout'),
 
+
+    path('cart/checkout/placeorder',views.PLACE_ORDER,name='place_order'),
+
+    path('cart/checkout/create_payment/', views.create_payment, name='create_payment'),
+    path('cart/checkout/execute_payment/', views.execute_payment, name='execute_payment'),
+
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

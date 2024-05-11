@@ -1,6 +1,6 @@
 # type: ignore
 from django.shortcuts import render, redirect
-from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us
+from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us, Order
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -9,7 +9,11 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
+import paypalrestsdk
+from django.urls import reverse
 
+import uuid
+import datetime
 
 def BASE(request):
     return render(request, 'main/base.html')
@@ -205,5 +209,112 @@ def cart_detail(request):
     return render(request, 'Cart/cart_details.html')
 
 
+#payment
+paypalrestsdk.configure({
+    "mode": "sandbox",  # Change to "live" for production
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_SECRET,
+})
+
 def Check_out(request):
     return render(request, 'Cart/checkout.html')
+
+def PLACE_ORDER(request):
+    if request.method == "POST":
+        uid = request.session.get('_auth_user_id')
+        user = User.objects.get(id = uid)
+        # print(user)
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        country = request.POST.get('country')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        postcode = int(request.POST.get('postcode'))
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        # print(firstname, lastname, country, address, city, postcode, phone, email)
+
+        
+        cart_items = []
+        cart_total_amount = 0
+
+        if 'cart' in request.session:
+            for key, value in request.session['cart'].items():
+                # Chuyển đổi value['price'] và value['quantity'] sang kiểu int
+                item_price = int(value['price'])
+                item_quantity = int(value['quantity'])
+
+                cart_item = {
+                    'name': value['name'],  
+                    'quantity': item_quantity, 
+                    'price': item_price,  
+                    'total_price': item_price * item_quantity  
+                }
+                cart_items.append(cart_item)
+
+                total_item_price = item_price * item_quantity
+                cart_total_amount += total_item_price
+
+        print(cart_items)
+        print(cart_total_amount)
+
+        order = Order(
+            user = user,
+            firstname = firstname,
+            lastname = lastname,
+            country = country,
+            address = address,
+            additional_info = "no additional information",
+            city = city,
+            state = state,
+            postcode = postcode,
+            phone = phone,
+            email = email,
+            payment_id = "ORDER_" + str(uuid.uuid4().hex)[:10] + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        )
+        order.save()
+
+        
+
+    return render(request, 'Cart/placeorder.html')
+
+
+def create_payment(request):
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal",
+        },
+        "redirect_urls": {
+            "return_url": request.build_absolute_uri(reverse('execute_payment')),
+            "cancel_url": request.build_absolute_uri(reverse('payment_failed')),
+        },
+        "transactions": [
+            {
+                "amount": {
+                    "total": "10.00",  # Total amount in USD
+                    "currency": "USD",
+                },
+                "description": "Payment for Product/Service",
+            }
+        ],
+    })
+
+    if payment.create():
+        return redirect(payment.links[1].href)  # Redirect to PayPal for payment
+    else:
+        return render(request, 'payment_failed.html')
+    
+
+def execute_payment(request):
+    payment_id = request.GET.get('paymentId')
+    payer_id = request.GET.get('PayerID')
+
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        return render(request, 'payment_success.html')
+    else:
+        return render(request, 'payment_failed.html')
+

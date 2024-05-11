@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'E_Shop',
     'ckeditor',
-    'cart'
+    'cart',
+    'paypal.standard.ipn',
 ]
 
 CART_SESSION_ID = 'cart'
@@ -128,6 +129,10 @@ STATIC_ROOT = '/static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+PAYPAL_CLIENT_ID = 'AVmZsiP7Us4Y38pZvLysxvoFlzDAJUr3ZI35olJlvaCi-brKEfxDLYOvQpsYnI8blvsXFRz-ggWUWXRu'
+PAYPAL_SECRET = 'EEgGHJazqKEhYQPPJLGJvQ-PX-05T7pEdUIJdiA8OXoOLwgpxLIUwmYiJs1Lsd_fDoZm2cG203i94Zk-'
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -138,3 +143,4 @@ EMAIL_HOST_PASSWORD = 'jssx pmhr crew lbjf'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
