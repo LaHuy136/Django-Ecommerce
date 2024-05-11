@@ -94,17 +94,15 @@ class Contact_us(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    fistname = models.CharField(max_length=200)
+    firstname = models.CharField(max_length=200)
     lastname = models.CharField(max_length=200)
-    county = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
     address = models.TextField()
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     postcode = models.IntegerField()
     phone = models.IntegerField()
     email = models.EmailField()
-    additional_info = models.TextField()
     amount = models.CharField(max_length=100)
     payment_id = models.CharField(max_length=300, null=True, blank=True)
     paid = models.BooleanField(default=False, null=True)

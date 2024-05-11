@@ -1,6 +1,6 @@
 # type: ignore
 from django.shortcuts import render, redirect
-from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us
+from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us, Order, OrderItem
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -202,8 +202,60 @@ def cart_clear(request):
 
 @login_required(login_url="/login/")
 def cart_detail(request):
-    return render(request, 'Cart/cart_details.html')
+    return render(request, "Cart/cart_details.html")
 
 
 def Check_out(request):
-    return render(request, 'Cart/checkout.html')
+    return render(request, "Cart/checkout.html")
+
+def PLACE_ORDER(request):
+    if request.method == "POST":
+        uid = request.session.get('_auth_user_id')
+        user = User.objects.get(id = uid)
+        cart = request.session.get('cart')
+        print(cart)
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        country = request.POST.get('country')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        postcode = request.POST.get('postcode')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        amount = request.POST.get('amount')
+        order_id = request.POST.get('order_id')
+        payment = request.POST.get('payment')
+        
+        order = Order(
+            user = user,
+            firstname = firstname,
+            lastname = lastname,
+            country = country,
+            address = address,
+            city = city,
+            state = state,
+            postcode = postcode,
+            phone = phone,
+            email = email,
+            payment_id = order_id,
+            amount = amount
+        )
+        order.save()
+        for i in cart:
+            p = (int(cart[i]['price']))
+            q = cart[i]['quantity']
+            total = p * q
+            
+            
+            
+            item = OrderItem(
+                order = order,
+                product = cart[i]['name'],
+                image = cart[i]['image'],
+                quantity = cart[i]['quantity'],
+                price = cart[i]['price'],
+                total = total   
+            )
+            item.save()
+        return render(request, "Cart/placeorder.html")
