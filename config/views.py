@@ -1,11 +1,10 @@
 # type: ignore
 from django.shortcuts import render, redirect
-from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us, Order, OrderItem
+from E_Shop.models import Product, Categorie, Filter_Price, Color, Brand, Contact_us, Order, OrderItem
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
@@ -25,7 +24,7 @@ def HOME(request):
 
 def PRODUCT(request):
     product = Product.objects.all()
-    categories = Categoires.objects.all()
+    categories = Categorie.objects.all()
     filter_price = Filter_Price.objects.all()
     color = Color.objects.all()
     brand = Brand.objects.all()
@@ -259,3 +258,6 @@ def PLACE_ORDER(request):
             )
             item.save()
         return render(request, "Cart/placeorder.html")
+    
+def success(request):
+    return render(request, 'Cart/thank_you.html')

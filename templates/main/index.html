@@ -118,16 +118,16 @@
                             <span class="badges">
                                 <span class="new">{{prod.condition}}</span>
                             </span>
-                            <div class="thumb">
-                                <a href="/products/{{prod.id}}" class="image">
-                                    <img src="{{prod.image}}" alt="Product" />
-                                    <img class="hover-image" src="{{prod.image}}" alt="Product" />
+                            <div class="thumb" >
+                                <a href="/products/{{prod.id}}" class="image" >
+                                    <img src="{{prod.product_image}}" alt="Product" />
+                                    <img class="hover-image" src="{{prod.product_image}}" alt="Product" />
                                 </a>
                             </div>
                             <div class="content">
                                 <br>
                                 <span class="category"><a href="/products/{{prod.id}}">{{prod.categories}}</a></span>
-                                <h5 class="title"><a href="/products/{{prod.id}}">{{prod.name| truncatewords:15}}
+                                <h5 class="title"><a href="/products/{{prod.id}}">{{prod.name| truncatewords:8}}
                                     </a>
                                 </h5>
                                 <span class="price">

@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-class Categoires(models.Model):
+class Categorie(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Product(models.Model):
     STATUS = ('Publish', 'Publish'), ('Draft', 'Draft')
 
     unique_id = models.CharField(unique=True, max_length=200, null=False, blank=True)
-    image = models.ImageField(upload_to='Product_images/img')
+    product_image  = models.ImageField(upload_to='Product_images/img')
     name = models.CharField(max_length=200)
     price = models.IntegerField()
     condition = models.CharField(choices=CONDITION, max_length=100)
@@ -51,7 +51,7 @@ class Product(models.Model):
     status = models.CharField(choices=STATUS, max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
-    categories = models.ForeignKey(Categoires, on_delete=models.CASCADE)
+    categories = models.ForeignKey(Categorie, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     filter_price = models.ForeignKey(Filter_Price, on_delete=models.CASCADE)
@@ -67,9 +67,9 @@ class Product(models.Model):
         return self.name
 
 
-class Images(models.Model):
+class Image(models.Model):
     image = models.ImageField(upload_to='Product_images/img')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
 
     def __str__(self):
         return self.product.name
