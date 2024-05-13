@@ -508,10 +508,10 @@
             <div class="offcanvas-social mt-auto">
                 <ul>
                     <li>
-                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     </li>
                     <li>
                         <a href="#"><i class="fa-brands fa-google"></i></a>
@@ -548,12 +548,12 @@
                                 </p>
                                 <ul class="link-follow">
                                     <li>
-                                        <a class="m-0" title="Twitter" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-facebook"
+                                        <a class="m-0" title="Facebook" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-facebook"
                                             aria-hidden="true"></i></a>
                                     </li>
         
                                     <li>
-                                        <a title="Facebook" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+                                        <a title="Twitter" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
                                         </a>
                                     </li>
                                     <li>
@@ -655,16 +655,17 @@
                             <!-- Swiper -->
                             <div class="swiper-container gallery-top">
                                 <div class="swiper-wrapper">
-                                    {% for img in i.images_set.all %}
+                                    {% for img in i.images.all %}
                                     <div class="swiper-slide">
                                         <img class="img-responsive m-auto" src="/{{ img.image }}" alt="">
                                     </div>
+                                   
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
                                 <div class="swiper-wrapper">
-                                    {% for img in i.images_set.all %}
+                                    {% for img in i.images.all %}
                                     <div class="swiper-slide">
                                         <img class="img-responsive m-auto" src="/{{ img.image }}" alt="">
                                     </div>
