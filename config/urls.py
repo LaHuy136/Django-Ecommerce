@@ -36,7 +36,8 @@ urlpatterns = [
 
     path('cart/checkout/placeorder',views.PLACE_ORDER,name='place_order'),
 
-    path('cart/checkout/create_payment/', views.create_payment, name='create_payment'),
-    path('cart/checkout/execute_payment/', views.execute_payment, name='execute_payment'),
+
+    path('success', views.success,name='success'),
+    path('payment-success/', views.payment_success, name='payment_success'),
 
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 # type: ignore
 from django.shortcuts import render, redirect
-from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us, Order
+from E_Shop.models import Product, Categoires, Filter_Price, Color, Brand, Contact_us, Order, OrderItem
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -235,13 +235,13 @@ def PLACE_ORDER(request):
         email = request.POST.get('email')
         # print(firstname, lastname, country, address, city, postcode, phone, email)
 
+        cart = request.session.get('cart')
         
         cart_items = []
         cart_total_amount = 0
 
         if 'cart' in request.session:
             for key, value in request.session['cart'].items():
-                # Chuyển đổi value['price'] và value['quantity'] sang kiểu int
                 item_price = int(value['price'])
                 item_quantity = int(value['quantity'])
 
@@ -256,8 +256,9 @@ def PLACE_ORDER(request):
                 total_item_price = item_price * item_quantity
                 cart_total_amount += total_item_price
 
-        print(cart_items)
-        print(cart_total_amount)
+
+        # print(cart_items)
+        # print(cart_total_amount)
 
         order = Order(
             user = user,
@@ -271,50 +272,49 @@ def PLACE_ORDER(request):
             postcode = postcode,
             phone = phone,
             email = email,
+            amount = cart_total_amount,
             payment_id = "ORDER_" + str(uuid.uuid4().hex)[:10] + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         )
         order.save()
 
+        if cart is not None:
+            
+            for i in cart:
+                a = (int(cart[i]['price']))
+                b = (int(cart[i]['quantity']))
+                total = a*b
+
+                item = OrderItem(
+                    order = order,
+                    product = cart[i]['name'],
+                    image = cart[i]['image'],
+                    quantity = cart[i]['quantity'],
+                    price = cart[i]['price'],
+                    total = total
+                )
+
+                item.save()
+
+        context = {
+            'order': order
+        }
         
+    return render(request, 'Cart/placeorder.html', context)
 
-    return render(request, 'Cart/placeorder.html')
-
-
-def create_payment(request):
-    payment = paypalrestsdk.Payment({
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal",
-        },
-        "redirect_urls": {
-            "return_url": request.build_absolute_uri(reverse('execute_payment')),
-            "cancel_url": request.build_absolute_uri(reverse('payment_failed')),
-        },
-        "transactions": [
-            {
-                "amount": {
-                    "total": "10.00",  # Total amount in USD
-                    "currency": "USD",
-                },
-                "description": "Payment for Product/Service",
-            }
-        ],
-    })
-
-    if payment.create():
-        return redirect(payment.links[1].href)  # Redirect to PayPal for payment
-    else:
-        return render(request, 'payment_failed.html')
     
+def payment_success(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        order_id = data.get('orderID')
+        try:
+            order = Order.objects.get(paymen_id=order_id)
+            order.paid = True  
+            order.save()
+            return JsonResponse({'status': 'success'})
+        except Order.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
-def execute_payment(request):
-    payment_id = request.GET.get('paymentId')
-    payer_id = request.GET.get('PayerID')
-
-    payment = paypalrestsdk.Payment.find(payment_id)
-
-    if payment.execute({"payer_id": payer_id}):
-        return render(request, 'payment_success.html')
-    else:
-        return render(request, 'payment_failed.html')
+def success(request):
+    return render(request, 'Cart/thank-you.html')
 

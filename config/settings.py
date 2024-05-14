@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'E_Shop',
     'ckeditor',
     'cart',
-    'paypal.standard.ipn',
 ]
 
 CART_SESSION_ID = 'cart'
