@@ -38,6 +38,5 @@ urlpatterns = [
 
 
     path('success', views.success,name='success'),
-    path('payment-success/', views.payment_success, name='payment_success'),
 
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

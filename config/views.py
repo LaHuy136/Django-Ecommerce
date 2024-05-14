@@ -260,6 +260,8 @@ def PLACE_ORDER(request):
         # print(cart_items)
         # print(cart_total_amount)
 
+        payment_id = "ORDER_" + str(uuid.uuid4().hex)[:10] + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         order = Order(
             user = user,
             firstname = firstname,
@@ -273,7 +275,7 @@ def PLACE_ORDER(request):
             phone = phone,
             email = email,
             amount = cart_total_amount,
-            payment_id = "ORDER_" + str(uuid.uuid4().hex)[:10] + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            payment_id = payment_id,
         )
         order.save()
 
@@ -295,26 +297,28 @@ def PLACE_ORDER(request):
 
                 item.save()
 
+        request.session['order'] = {
+            'payment_id': payment_id,
+            'paid': False,
+        }
         context = {
             'order': order
         }
         
     return render(request, 'Cart/placeorder.html', context)
 
-    
-def payment_success(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        order_id = data.get('orderID')
-        try:
-            order = Order.objects.get(paymen_id=order_id)
-            order.paid = True  
-            order.save()
-            return JsonResponse({'status': 'success'})
-        except Order.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=404)
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 def success(request):
+    cart = Cart(request)
+    cart.clear()
+    order = request.session.get('order', {})
+    id = order['payment_id']
+
+    order = Order.objects.get(payment_id=id)
+
+    order.paid = True
+
+    order.save()
+    
     return render(request, 'Cart/thank-you.html')
 
