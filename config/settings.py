@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'E_Shop',
+    'ckeditor',
+    'cart',
 ]
+
+CART_SESSION_ID = 'cart'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processor.cart_total_amount'
             ],
         },
     },
@@ -124,7 +129,17 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+PAYPAL_CLIENT_ID = 'AVmZsiP7Us4Y38pZvLysxvoFlzDAJUr3ZI35olJlvaCi-brKEfxDLYOvQpsYnI8blvsXFRz-ggWUWXRu'
+PAYPAL_SECRET = 'EEgGHJazqKEhYQPPJLGJvQ-PX-05T7pEdUIJdiA8OXoOLwgpxLIUwmYiJs1Lsd_fDoZm2cG203i94Zk-'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'rimpvd76@gmail.com'
+EMAIL_HOST_PASSWORD = 'jssx pmhr crew lbjf'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
