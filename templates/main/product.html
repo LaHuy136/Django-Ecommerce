@@ -80,14 +80,14 @@
                                                 </span>
                                                 <div class="thumb">
                                                     <a href="single-product.html" class="image">
-                                                        <img src="/{{prod.image}}" alt="Product" />
-                                                        <img class="hover-image" src="/{{prod.image}}" alt="Product" />
+                                                        <img src="/{{prod.product_image}}" alt="Product" />
+                                                        <img class="hover-image" src="/{{prod.product_image}}" alt="Product" />
                                                         
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <span class="category"><a href="#">{{prod.categories}}</a></span>
-                                                    <h5 class="title"><a href="single-product.html">{{prod.name|truncatewords:10}}
+                                                    <h5 class="title"><a href="single-product.html">{{prod.name|truncatewords:8}}
                                                         </a>
                                                     </h5>
                                                     <span class="price">
@@ -95,7 +95,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="actions">
-                                                    <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart"><i
+                                                    <button title="Add To Cart" class="action add-to-cart" data-bs-toggle="modal" data-bs-target="#exampleModal-Cart-{{forloop.counter}}"><i
                                                         class="pe-7s-shopbag"></i></button>
                                                     <button class="action wishlist" title="Wishlist" data-bs-toggle="modal" data-bs-target="#exampleModal-Wishlist"><i
                                                             class="pe-7s-like"></i></button>
@@ -117,8 +117,8 @@
                                                 <div class="product">
                                                     <div class="thumb">
                                                         <a href="single-product.html" class="image">
-                                                            <img src="/{{prod.image}}" alt="Product" />
-                                                            <img class="hover-image" src="/{{prod.image}}" alt="Product" />
+                                                            <img src="/{{prod.product_image}}" alt="Product" />
+                                                            <img class="hover-image" src="/{{prod.product_image}}" alt="Product" />
                                                         </a>
                                                         <span class="badges">
                                                         <span class="new">{{prod.condition}}</span>
