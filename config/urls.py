@@ -38,5 +38,8 @@ urlpatterns = [
 
 
     path('success', views.success,name='success'),
+    path('about', views.about,name='about'),
+    path('blog', views.blog,name='blog'),
+
 
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

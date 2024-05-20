@@ -322,3 +322,9 @@ def success(request):
     
     return render(request, 'Cart/thank-you.html')
 
+def about(request):
+    return render(request, 'Main/about.html')
+
+def blog(request):
+    return render(request, 'Main/blog.html')
+
